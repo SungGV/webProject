@@ -1,0 +1,26 @@
+input[type="submit"]{ height:25px;margin:3px;vertical-align:middle;line-height:18px;border: 1px solid #c5c5c5; font-family: Dotum, Arial;	font-size: 10pt;}
+input[type="button"]{ height:25px;margin:3px;vertical-align:middle;line-height:18px;border: 1px solid #c5c5c5; font-family: Dotum, Arial;	font-size: 10pt;}
+input[type="text"]{ height:25px;margin:3px;vertical-align:middle;line-height:18px;border: 1px solid #c5c5c5; font-family: Dotum, Arial;	font-size: 10pt;}
+th{
+	border-bottom:1px solid #e5e5e5;
+	border-right:1px solid #e5e5e5;
+	width:150px;
+	padding-left:5px;
+	font-size:12px;color:#585858;
+	font-weight:bold;
+	background-color:#f6f5f4;
+	font-family: dotum, Arial;
+	font-size: 10pt;
+}
+
+#txtTitle, #txtWriter { width:400px; height:30px; text-align:center;  border: 1px solid #cfcfcf; vertical-align:middle; line-height:29px; font-family: Dotum, Arial;	font-size: 10pt;}
+.line{border-top: 2px solid green;}
+.TSTitle {
+	 font-family: dotum, µ¸¿òÃ¼; font-size: 14px;
+}
+#radioServiceType{font-family: dotum, µ¸¿òÃ¼; font-size: 11px; background: #F9F9F9;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,form,fieldset,p,button{margin:10;padding:10}
+body,h1,h2,h3,h4,th,td,input{color:#333;font-family:"µ¸¿ò",dotum,sans-serif;font-size:12px;font-weight:normal}
+
+
+
