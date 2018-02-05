@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- update -->
+<mapper namespace="sukang.dao.mapper.UserMapper">
+
+	<sql id="select-user">
+		SELECT userId
+		,name
+		,email
+		,birth
+		,email
+		,address
+		,phone
+		From user_tb
+	</sql>
+
+	<select id="readUserById" parameterType="String" resultType="sukang.domain.User">
+		<include refid="select-user" />
+		Where userId = #{userId}
+	</select>
+
+	<insert id="insertUser" parameterType="sukang.domain.User">
+		insert into user_tb
+		(userId, name, email, phone, address)
+		values
+		(#{userId}, #{name}, #{email}, #{phone}, #{address})
+	</insert>
+
+</mapper>
+   
+   
+   

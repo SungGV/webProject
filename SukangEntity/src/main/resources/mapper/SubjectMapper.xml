@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+   <mapper namespace="sukang.dao.mapper.SubjectMapper">
+   
+   <sql id="select-subject">
+   		SELECT subjectCode
+   				,subjectName
+   				,credit
+   				,interest
+   			FROM subject_tb
+   </sql>
+   
+ 	<select id="readSubjectBySubjectCode" parameterType="String" resultType="sukang.domain.Subject">
+ 		<include refid="select-subject"/>
+		where subjectCode = #{subjectCode}
+ 	</select>
+ 
+ 	<select id="readPreSubject" resultType="sukang.domain.Subject">
+ 		select  p.preSubjectCode, p.subjectCode, s.subjectName
+		from presubject_tb p
+		inner join subject_tb s
+		ON p.preSubjectCode = s.subjectCode
+
+
+ 	</select>
+ 	
+ 	<select id="readDistinctPreSubject" resultType="sukang.domain.Subject">
+ 		select distinct p.preSubjectCode
+		from presubject_tb p
+		inner join subject_tb s
+		ON p.preSubjectCode = s.subjectCode
+ 	</select>
+ 	
+ 	<select id="readSubjectName" resultType="sukang.domain.Subject" parameterType="String">
+	 	select subjectName
+	    from subject_tb
+	    where subjectCode = #{subjectCode}
+ 	</select>
+ 	
+ 	
+ 	<select id="readPreSubjectList" parameterType="String" resultType="sukang.domain.Subject">
+ 		select ps.* from subject_tb s
+		Inner join presubject_tb p
+		On s.subjectCode = p.subjectCode
+		Inner join subject_tb ps
+		On ps.subjectCode = p.preSubjectCode
+		where s.subjectCode = #{subjectCode}
+ 	</select>
+ 	
+ 	<select id="getRelationCode" parameterType="String" resultType="sukang.domain.Subject">
+	 	SELECT p.subjectCode, p.preSubjectCode, s.subjectName
+	    FROM presubject_tb p
+	    INNER JOIN subject_tb s
+	    ON p.preSubjectCode = s.subjectCode
+	    WHERE p.subjectCode = #{subjectCode}
+ 	</select>
+ 
+ 	<select id="readRecSemesterByCode" parameterType="Map" resultType="String">
+ 		select recSemester FROM rec_semester_tb r
+		Inner join subject_tb s
+		On r.subjectCode = s.subjectCode
+		Where r.subjectCode = #{subjectCode}
+		And r.admission = #{admission};
+ 	</select>
+ 	
+ 	<select id="readClassTypeByCode" parameterType="Map" resultType="String">
+ 		select classtype from classtype_tb c
+		Inner join subject_tb s
+		On c.subjectCode = s.subjectCode
+		where s.subjectCode = #{subjectCode}
+		And c.admission = #{majorInfo.admission}
+		
+ 	</select>
+ 	
+   </mapper>
+   
+   
+   

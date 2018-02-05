@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+   <mapper namespace="sukang.dao.mapper.DepartmentMapper">
+   
+ 
+	<select id="readDepartInfo" parameterType="sukang.domain.UserMajorInfo" resultType="sukang.domain.Department">
+ 		Select * from depart_tb d
+		Inner join majorinfo_tb m
+		On d.admission = m.admission
+		And d.departCode = m.departCode
+		And d.status = m.status
+		Where d.departCode = #{departCode}
+		and d.status = #{status}
+		And d.admission = #{admission}
+		and m.userId = #{userId}
+		
+ 	</select>
+
+	<select id="readAllClassListForMajor" parameterType="sukang.domain.Department" resultType="sukang.domain.Subject">
+		select distinct s.subjectCode, s.subjectName, s.credit, s.interest from subject_tb s
+		Inner join reqsubject_tb r
+		On s.subjectCode = r.subjectCode
+		Inner join depart_tb d
+		On d.departCode = r.departCode
+		And r.admission = d.admission
+		Where d.departCode = #{departCode}
+		And d.admission = #{admission}
+ 	</select>
+ 
+ 	<select id="readDepartInfoBySchool" parameterType="string" resultType="sukang.domain.Department">
+ 		SELECT distinct major
+ 		FROM depart_tb
+ 		WHERE departCode LIKE CONCAT  (#{school}, "%")
+ 	</select>
+ 	
+ 	<select id="readYearInfoBySchool" parameterType="string" resultType="sukang.domain.Department">
+ 		SELECT distinct admission
+ 		FROM depart_tb
+ 		WHERE departCode LIKE CONCAT  (#{college}, "%")
+ 	
+ 	</select>
+ 	
+ 	<select id="readDepartCode" parameterType="map" resultType="sukang.domain.Department">
+ 		SELECT distinct departCode
+ 		FROM depart_tb
+		WHERE major = #{userMajor}
+		AND admission = #{userAdmin}
+		AND status = #{status}
+ 	</select>
+ 	
+ 	<select id="readDepartCodeList" parameterType="String"  resultType="sukang.domain.Department">
+ 		SELECT distinct departCode, major
+ 		FROM depart_tb
+ 		Where departCode LIKE CONCAT(#{college}, '%')
+ 	</select>
+ 	
+ 	<select id="readInterest" parameterType="sukang.domain.Department" resultType="sukang.domain.Subject">
+		select distinct s.interest 
+		from subject_tb s
+		Inner join reqsubject_tb r
+		On s.subjectCode = r.subjectCode
+		Inner join depart_tb d
+		On d.departCode = r.departCode
+		And r.admission = d.admission
+		Where d.departCode = #{departCode}
+		And d.admission = #{admission}
+ 	</select>
+ 	
+   </mapper>
+   
+   
+   

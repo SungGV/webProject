@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sukang.dao.mapper.UserMajorInfoMapper">
+
+	<sql id="select-majorInfo">
+		SELECT userId
+		,departCode
+		,status
+		,admission
+		,college
+		,studentId
+		,major
+		,comSemester
+		,interest
+		From majorinfo_tb
+	</sql>
+
+	<select id="readUserMajorInfoById" parameterType="String"
+		resultType="sukang.domain.UserMajorInfo">
+		<include refid="select-majorInfo" />
+		Where userId = #{userId}
+	</select>
+
+	<select id="readCourseList" parameterType="sukang.domain.Department"
+		resultType="sukang.domain.Subject">
+		select distinct s.subjectCode, s.subjectName, s.credit,
+		r.classtype,
+		s.interest, r.admission from subject_tb s
+		Inner join
+		reqsubject_tb r
+		On
+		s.subjectCode = r.subjectCode
+		Inner join depart_tb d
+		On d.departCode =
+		r.departCode
+		And r.admission = d.admission
+		Where
+		d.departCode =
+		#{departCode}
+		And d.admission = #{admission}
+
+	</select>
+
+	<resultMap id="resultMap" type="sukang.domain.Report">
+		<result property="subject.subjectName" column="subjectName" />
+		<result property="completedSemester" column="semester" />
+		<result property="subject.credit" column="credit" />
+	</resultMap>
+
+	<select id="readCompletedSubjectById" resultMap="resultMap">
+		select c.subjectCode, c.userId, c.grade, semester, c.retake, subjectName, credit
+		from complement_sb_tb c
+		Inner Join majorinfo_tb m
+		On c.userId = m.userId
+		Inner Join subject_tb s
+		On c.subjectCode = s.subjectCode
+		Where m.userId = #{userId}
+	</select>
+
+	<update id="updateUserAdditionalInfo" parameterType="sukang.domain.UserMajorInfo">
+		Update majorinfo_tb
+		Set
+		departCode = #{departCode},
+		status = #{status},
+		admission = #{admission},
+		college = #{college},
+		studentId = #{studentId},
+		major =#{major},
+		comSemester =#{comSemester} ,
+		interest =#{interest}
+		where userId = #{userId}
+
+	</update>
+
+	<insert id="addUserAdditionalInfo" parameterType="sukang.domain.UserMajorInfo">
+		INSERT INTO
+		majorinfo_tb
+		(UserId, departCode, status,admission, college, studentId
+		,major, comSemester ,interest)
+		VALUES
+		(#{userId}, #{departCode},
+		#{status}, #{admission}, #{college}, #{studentId}
+		,#{major},
+		#{comSemester} ,#{interest})
+	</insert>
+
+	<delete id="deleteUserCompletedSubject" parameterType="String">
+		delete
+		from complement_sb_tb
+		where userId = #{userId}
+	</delete>
+
+
+	<insert id="addUserCompletedSubject" parameterType="map">
+		INSERT INTO
+		complement_sb_tb
+		(subjectCode, userId, grade, semester, retake)
+		VALUES
+		(#{report.subjectCode}, #{userId}, #{report.grade},
+		#{report.completedSemester}, #{report.retake})
+	</insert>
+
+	<insert id="insertSavedRecSubject" parameterType="map">
+		Insert into
+		savedsubject_tb
+		(userId, semester, subjectCode)
+		values
+		(#{userId},
+		#{subject.semester}, #{subject.subjectCode});
+
+	</insert>
+
+	<delete id="deleteSavedRecSubject" parameterType="String">
+		Delete from
+		savedsubject_tb
+		Where userId = #{userId};
+	</delete>
+
+	<select id="readSavedRecSubject" parameterType="String"
+		resultType="sukang.domain.Subject">
+		Select s.* ,v.semester FROM subject_tb s
+		Inner Join
+		savedsubject_tb v
+		On s.subjectCode = v.subjectCode
+		Where v.userId =
+		#{userId};
+
+	</select>
+
+</mapper>
+   
+   
+   
